@@ -6,7 +6,7 @@ type TabsProps = {
   className?: string;
 };
 
-export function Tabs({ children, defaultValue, className = "" }: TabsProps) {
+export const Tabs: React.FC<TabsProps> = ({ children, defaultValue, className = "" }) => {
   const [activeTab, setActiveTab] = useState(defaultValue);
   const list = Array.isArray(children) && children.find((child: any) => child.type.name === "TabsList");
   const content =
