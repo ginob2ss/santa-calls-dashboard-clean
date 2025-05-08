@@ -1,4 +1,4 @@
-// force rebuild
+import "./globals.css";
 export const metadata = {
   title: "Santa Calls Dashboard",
   description: "Track build progress for the Santa Calls project.",
