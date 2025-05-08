@@ -1,10 +1,17 @@
 import { useState } from "react";
 
-export function Tabs({ children, defaultValue }) {
+export function Tabs({ children, defaultValue, className = "" }) {
+
   const [activeTab, setActiveTab] = useState(defaultValue);
   const list = children.find(child => child.type.name === "TabsList");
   const content = children.filter(child => child.type.name === "TabsContent" && child.props.value === activeTab);
-  return (<>{list && typeof list.type === "function" ? list.type({ ...list.props, activeTab, setActiveTab }) : null}{content}</>);
+  return (
+  <div className={className}>
+    {list}
+    {content}
+  </div>
+);
+
 }
 
 export function TabsList({ children, activeTab, setActiveTab, className = "" }) {
