@@ -1,4 +1,4 @@
-import { useState, ReactNode } from "react";
+import { useState, ReactNode, FC } from "react";
 
 type TabsProps = {
   children: ReactNode;
@@ -6,12 +6,19 @@ type TabsProps = {
   className?: string;
 };
 
-export const Tabs: React.FC<TabsProps> = ({ children, defaultValue, className = "" }) => {
+const Tabs: FC<TabsProps> = ({ children, defaultValue, className = "" }) => {
   const [activeTab, setActiveTab] = useState(defaultValue);
-  const list = Array.isArray(children) && children.find((child: any) => child.type.name === "TabsList");
+  const list =
+    Array.isArray(children) &&
+    children.find((child: any) => child.type.name === "TabsList");
+
   const content =
     Array.isArray(children) &&
-    children.filter((child: any) => child.type.name === "TabsContent" && child.props.value === activeTab);
+    children.filter(
+      (child: any) =>
+        child.type.name === "TabsContent" &&
+        child.props.value === activeTab
+    );
 
   return (
     <div className={className}>
@@ -21,7 +28,9 @@ export const Tabs: React.FC<TabsProps> = ({ children, defaultValue, className = 
       {content}
     </div>
   );
-}
+};
+
+export default Tabs;
 
 export function TabsList({ children, activeTab, setActiveTab, className = "" }) {
   return (
