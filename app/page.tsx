@@ -5,7 +5,7 @@
 
 import { useState } from "react";
 import { Card, CardContent } from "../components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs";
+import Tabs, { TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs";
 
 
 const statusOptions = ["Not started", "Waiting", "In progress", "Complete"];
