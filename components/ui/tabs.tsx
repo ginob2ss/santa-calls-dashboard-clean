@@ -1,4 +1,6 @@
-import { useState, ReactNode, FC } from "react";
+"use client";
+
+import React, { useState, ReactNode } from "react";
 
 type TabsProps = {
   children: ReactNode;
@@ -6,49 +8,75 @@ type TabsProps = {
   className?: string;
 };
 
-const Tabs: FC<TabsProps> = ({ children, defaultValue, className = "" }) => {
-  const [activeTab, setActiveTab] = useState(defaultValue);
-  const list =
-    Array.isArray(children) &&
-    children.find((child: any) => child.type.name === "TabsList");
+type TabsListProps = {
+  children: ReactNode[];
+  activeTab: string;
+  setActiveTab: (value: string) => void;
+  className?: string;
+};
 
-  const content =
-    Array.isArray(children) &&
-    children.filter(
-      (child: any) =>
-        child.type.name === "TabsContent" &&
-        child.props.value === activeTab
-    );
+type TabsTriggerProps = {
+  value: string;
+  children: ReactNode;
+  isActive: boolean;
+  onClick: () => void;
+};
+
+type TabsContentProps = {
+  value: string;
+  children: ReactNode;
+};
+
+export default function Tabs({ children, defaultValue, className = "" }: TabsProps) {
+  const [activeTab, setActiveTab] = useState(defaultValue);
+
+  const childrenArray = React.Children.toArray(children);
+
+  const list = childrenArray.find(
+    (child: any) => child.type?.name === "TabsList"
+  );
+
+  const content = childrenArray.filter(
+    (child: any) =>
+      child.type?.name === "TabsContent" && child.props.value === activeTab
+  );
 
   return (
     <div className={className}>
       {list &&
-        typeof list.type === "function" &&
-        list.type({ ...list.props, activeTab, setActiveTab })}
+        React.cloneElement(list as React.ReactElement, {
+          activeTab,
+          setActiveTab,
+        })}
       {content}
     </div>
   );
-};
+}
 
-export default Tabs;
-
-export function TabsList({ children, activeTab, setActiveTab, className = "" }) {
+export function TabsList({
+  children,
+  activeTab,
+  setActiveTab,
+  className = "",
+}: TabsListProps) {
   return (
     <div className={className}>
-      {children.map((child: any) =>
-        typeof child.type === "function"
-          ? child.type({
-              ...child.props,
-              isActive: child.props.value === activeTab,
-              onClick: () => setActiveTab(child.props.value),
-            })
-          : null
+      {React.Children.map(children, (child: any) =>
+        React.cloneElement(child, {
+          isActive: child.props.value === activeTab,
+          onClick: () => setActiveTab(child.props.value),
+        })
       )}
     </div>
   );
 }
 
-export function TabsTrigger({ value, children, isActive, onClick }) {
+export function TabsTrigger({
+  value,
+  children,
+  isActive,
+  onClick,
+}: TabsTriggerProps) {
   return (
     <button
       className={`px-4 py-2 rounded-md text-sm font-medium ${
@@ -63,6 +91,6 @@ export function TabsTrigger({ value, children, isActive, onClick }) {
   );
 }
 
-export function TabsContent({ value, children }) {
+export function TabsContent({ value, children }: TabsContentProps) {
   return <div className="mt-4">{children}</div>;
 }
