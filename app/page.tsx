@@ -19,7 +19,7 @@ export default function SantaCallsDashboard() {
     firebase: "Not started",
     bland: "Not started",
   });
-
+  
   const [notes, setNotes] = useState("");
 
   const updateStatus = (key: string, value: string) => {
