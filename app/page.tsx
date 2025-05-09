@@ -9,6 +9,7 @@ import Tabs, { TabsList, TabsTrigger, TabsContent } from "../components/ui/tabs"
 
 
 const statusOptions = ["Not started", "Waiting", "In progress", "Complete"];
+const TypedTabs = Tabs as (props: any) => JSX.Element;
 
 export default function SantaCallsDashboard() {
   const [statuses, setStatuses] = useState({
@@ -33,7 +34,7 @@ export default function SantaCallsDashboard() {
   return (
     <div className="p-6">
       <h1 className="text-3xl font-bold mb-6">🎅 Santa Calls MVP Dashboard</h1>
-      <Tabs defaultValue="project" className={"w-full" as any}>
+      <TypedTabs defaultValue="project" className="w-full">
         <TabsList className="mb-4 flex flex-wrap gap-2">
           <TabsTrigger value="project">🧭 Project Status</TabsTrigger>
           <TabsTrigger value="hardware">📞 Hardware</TabsTrigger>
