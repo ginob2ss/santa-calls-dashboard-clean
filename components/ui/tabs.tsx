@@ -27,9 +27,8 @@ type TabsContentProps = {
   children: ReactNode;
 };
 
-export default function Tabs({ children, defaultValue, className = "" }: TabsProps) {
+const Tabs = ({ children, defaultValue, className = "" }: TabsProps) => {
   const [activeTab, setActiveTab] = useState(defaultValue);
-
   const childrenArray = React.Children.toArray(children);
 
   const list = childrenArray.find(
@@ -38,7 +37,8 @@ export default function Tabs({ children, defaultValue, className = "" }: TabsPro
 
   const content = childrenArray.filter(
     (child: any) =>
-      child.type?.name === "TabsContent" && child.props.value === activeTab
+      child.type?.name === "TabsContent" &&
+      child.props.value === activeTab
   );
 
   return (
@@ -51,7 +51,9 @@ export default function Tabs({ children, defaultValue, className = "" }: TabsPro
       {content}
     </div>
   );
-}
+};
+
+export default Tabs;
 
 export function TabsList({
   children,
